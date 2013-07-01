@@ -1,0 +1,168 @@
+<html>
+	<head>
+		<style type="text/css">
+		#mydiv
+		{
+			background-color:#CCC;
+		}	
+
+		
+		form {
+				position:"absolute";
+				left:500px;
+				top:150px;				
+				width:600px;
+				height:430px;			
+				border:5px;
+				background-color:#CCC;
+				font-size:16px;
+		 		font-family:"Times New Roman", Times, serif;          	 	
+		     }
+	    </style>
+		
+		<script>
+
+			if (document.addEventListener) 
+			{
+				       		
+				document.addEventListener('contextmenu', function(e) 
+				{
+				    
+				    if (window.XMLHttpRequest)
+				    {
+				  	xmlhttp=new XMLHttpRequest();
+				    }
+				    else
+			            {
+				 	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  				    }
+				    xmlhttp.onreadystatechange=function()
+  				    {
+					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				          {
+						document.getElementById("mydiv").innerHTML=xmlhttp.responseText;
+						
+						document.getElementById("mydiv").style.position="absolute";
+						document.getElementById("mydiv").style.left=e.pageX;
+						document.getElementById("mydiv").style.top=e.pageY;
+    					  }
+  				    }
+				    xmlhttp.open("GET","index.php",true);
+				    xmlhttp.send();
+				    e.preventDefault();
+			            
+			        }, false);
+			}
+
+		
+			function validate()
+			{
+				var x,len,pos1,pos2,pattern;				
+				
+				fname=document.forms["Form"]["fname"].value;
+				if (fname==null || fname=="")
+				  {
+				  	alert("First Name must be filled out");
+				  	return false;
+				  }
+
+				pattern = /^[A-Za-z]+$/;
+				if((fname.match(pattern))==null)
+				  {
+					alert("Not a valid First Name");
+				  	return false;
+				  }
+				
+				lname=document.forms["Form"]["lname"].value;
+				if (lname==null || lname=="")
+				  {
+				  	alert("Last Name must be filled out");
+				  	return false;
+				  }
+
+				pattern = /^[A-Za-z]+$/;
+				if((lname.match(pattern))==null)
+				  {
+					alert("Not a valid Last Name");
+				  	return false;
+				  }
+				x=document.forms["Form"]["cno"].value;
+				if (x==null || x=="")
+				  {
+				  	alert("Contact No must be filled out");
+				  	return false;
+				  }
+				
+				len=x.length;
+				if(len!=10 || isNaN(x))
+				{
+					alert("Not a valid contact no");
+				  	return false;
+				}
+				
+				var reg=new RegExp(/^\d+$/);
+				patt=reg.test(x);			
+				if(!patt)
+				{
+					alert("Not a valid contact no");
+				  	return false;
+				}
+			
+				x=document.forms["Form"]["email"].value;
+				if (x==null || x=="")
+				  {
+				  	alert("Email must be filled out");
+				  	return false;
+				  }
+				pos1=x.indexOf("@");
+				pos2=x.lastIndexOf(".");
+				if (pos1<1 || pos2<pos1+2 || pos2+2>=x.length)
+  				{
+ 					alert("Not a valid e-mail address");
+ 			 		return false;
+  				}
+					
+				
+				x=document.forms["Form"]["pwd"].value;				
+				if (x==null || x=="")
+				  {
+				  	alert("Password must be filled out");
+				  	return false;
+				  }
+				len=x.length;
+				if(len<8 || len>15)
+				{
+ 					alert("Not a valid Password");
+ 			 		return false;
+  				}
+				var sym = /[-$@_]/;
+				var upc = /[A-Z]/;
+				var patt1=x.match(sym);		
+				var patt2=x.match(upc);			
+
+				if(patt1==null || patt2==null)
+				{
+					alert("Not a valid Password");
+				  	return false;
+				}
+					
+				
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="mydiv"></div>			
+	
+		<form name="Form" align="center"><pre><br/><br/>
+		First Name : 	<input type="text" name="fname"><br/><br/>
+		Last Name  : 	<input type="text" name="lname"><br/><br>	
+		Contact No : 	<input type="text" name="cno"><br/><br/>
+		Email      : 	<input type="text" name="email"><br/><br/>
+		Password   : 	<input type="text" name="pwd"><br/><br/>
+		           <input type="submit" value="Submit" onclick="return validate()"></pre>
+		</form>
+
+
+	</body>
+</html>
